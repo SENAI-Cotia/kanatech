@@ -1,21 +1,45 @@
-Sistema de Chamados 
-Projeto para gestão de chamados técnicos, focado em abertura e acompanhamento de status.
+# Sistema de Chamados
 
-Funcionalidades:
+Projeto para gestão de chamados técnicos, com foco na abertura, acompanhamento e atualização de status.
 
-Abertura de chamados (título, descrição, setor)
-Listagem de chamados
-Atualização de status (Aberto, Em Andamento, Concluído)
+## Funcionalidades
 
-Tecnologias: HTML,CSS,Java,Banco de Dados MYSQL, Spring
+- Abertura de chamados contendo:
+  - Título
+  - Descrição
+  - Setor
+- Listagem de chamados
+- Atualização de status:
+  - Aberto
+  - Em andamento
+  - Concluído
 
-Estrutura
-formulario.html: Página de formulário para quem for abrir o chamado.
-gestao.html: Página principal para quem for gerenciar e resolver os chamado
+## Tecnologias Utilizadas
 
-Funcionalidades:
+- HTML
+- CSS
+- Java
+- MySQL
+- Spring
 
-Responsividade para computadores,notebooks, celulares e tablets
+## Estrutura do Projeto
 
-criação de chamado, registrando hora e tempo para o chamado ser aberto e concluído
+- `formulario.html`  
+  Página destinada à abertura de novos chamados.
 
+- `gestao.html`  
+  Página principal para gerenciamento e resolução dos chamados.
+
+## Responsividade
+
+O sistema é responsivo e adaptado para:
+
+- Computadores
+- Notebooks
+- Tablets
+- Celulares
+
+## Controle de Tempo
+
+- Registro da data e hora de abertura do chamado
+- Controle do tempo até a conclusão
