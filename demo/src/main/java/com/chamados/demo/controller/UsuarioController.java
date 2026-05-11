@@ -1,7 +1,5 @@
 package com.chamados.demo.controller;
 
-import com.chamados.demo.repositorio.UsuarioRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
