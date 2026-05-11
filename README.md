@@ -27,7 +27,7 @@ Projeto para gestão de chamados técnicos, com foco na abertura, acompanhamento
 - `formulario.html`  
   Página destinada à abertura de novos chamados.
 
-- `gestao.html`  
+- `chamados.html`  
   Página principal para gerenciamento e resolução dos chamados.
 
 ## Responsividade
