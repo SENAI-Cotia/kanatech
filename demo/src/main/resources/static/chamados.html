@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Chamados</title>
+
+    <style>
+        body { font-family: Arial; }
+        .board { display: flex; gap: 20px; }
+        .coluna { width: 30%; background: #f4f4f4; padding: 10px; border-radius: 10px; }
+        .card { background: white; padding: 10px; margin-bottom: 10px; border-radius: 8px; }
+    </style>
+
+</head>
+<body>
+
+<h2>Quadro de Chamados</h2>
+
+<div class="board">
+
+    <div class="coluna">
+        <h3>Aberto</h3>
+        <div th:each="c : ${abertos}" class="card">
+            <p th:text="${c.titulo}"></p>
+
+            <form th:action="@{'/chamados/mudar-status/' + ${c.id}}" method="post">
+                <input type="hidden" name="status" value="EM_ANDAMENTO"/>
+                <button>Iniciar</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="coluna">
+        <h3>Em Andamento</h3>
+        <div th:each="c : ${andamento}" class="card">
+            <p th:text="${c.titulo}"></p>
+
+            <form th:action="@{'/chamados/mudar-status/' + ${c.id}}" method="post">
+                <input type="hidden" name="status" value="ENCERRADO"/>
+                <button>Finalizar</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="coluna">
+        <h3>Encerrado</h3>
+        <div th:each="c : ${encerrados}" class="card">
+            <p th:text="${c.titulo}"></p>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
