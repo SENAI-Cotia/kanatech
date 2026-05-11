@@ -16,6 +16,4 @@ public class Comentario {
     @ManyToOne
     @JoinColumn(name = "chamado_id")
     private Chamado chamado;
-
-
 }
