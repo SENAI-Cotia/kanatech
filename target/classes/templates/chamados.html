@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -334,8 +336,10 @@
             <div class="sub">Chamados</div>
         </div>
     </div>
-    <div class="sidebar-role">Admin</div>
-    <nav class="sidebar-nav">
+    <div class="sidebar-role"
+         sec:authorize="hasRole('ADMIN')">
+        Admin
+    </div>
         <a class="nav-item active" href="/ti/chamados">
             <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
@@ -351,8 +355,16 @@
         </a>
     </nav>
     <div class="sidebar-user">
-        <div class="user-avatar">TI</div>
-        <div class="user-info">
+        <form th:action="@{/logout}" method="post">
+
+            <button type="submit">
+                Sair
+            </button>
+        </form>
+        <div class="name"
+             th:text="${#authentication.name}">
+            Usuário
+        </div>
             <div class="name">Técnico TI</div>
             <div class="email">ti@kanatech.com</div>
         </div>
