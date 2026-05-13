@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanatech Chamados</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ── Sidebar ── */
+        .sidebar {
+            width: 200px;
+            background: #1a1a2e;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            flex-shrink: 0;
+        }
+
+        .sidebar-logo {
+            padding: 20px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, #6c63ff, #4a90d9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .logo-text { color: white; line-height: 1.2; }
+        .logo-text .brand { font-weight: 700; font-size: 14px; }
+        .logo-text .sub { font-size: 10px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; }
+
+        .sidebar-nav { padding: 12px 8px; flex: 1; }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 2px;
+        }
+
+        .nav-item:hover { background: rgba(255,255,255,0.08); color: white; }
+        .nav-item.active { background: #6c63ff; color: white; }
+        .nav-item svg { flex-shrink: 0; }
+
+        .sidebar-user {
+            padding: 14px 16px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background: #6c63ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .user-info { color: white; line-height: 1.3; }
+        .user-info .name { font-size: 12px; font-weight: 600; }
+        .user-info .email { font-size: 10px; color: rgba(255,255,255,0.5); }
+
+        /* ── Main ── */
+        .main {
+            flex: 1;
+            padding: 40px 50px;
+            background: white;
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid #e5e7eb;
+            margin-bottom: 30px;
+        }
+
+        .form-group { margin-bottom: 20px; }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            max-width: 440px;
+            padding: 10px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #374151;
+            background: white;
+            outline: none;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: #6c63ff;
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #9ca3af;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn-submit {
+            background: #6c63ff;
+            color: white;
+            border: none;
+            padding: 11px 28px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover { background: #5a52d5; }
+
+        .alert-success {
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            color: #065f46;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            max-width: 440px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<aside class="sidebar">
+    <div class="sidebar-logo">
+        <div class="logo-icon">K</div>
+        <div class="logo-text">
+            <div class="brand">Kanatech</div>
+            <div class="sub">Chamados</div>
+        </div>
+    </div>
+    <nav class="sidebar-nav">
+        <a class="nav-item active" href="/">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+                <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+            </svg>
+            Abrir um chamado
+        </a>
+    </nav>
+    <div class="sidebar-user">
+        <div class="user-avatar">UA</div>
+        <div class="user-info">
+            <div class="name">Usuário</div>
+            <div class="email">user@test.com</div>
+        </div>
+    </div>
+</aside>
+
+<main class="main">
+    <h1>Abrir um chamado</h1>
+    <hr class="divider">
+
+    <div th:if="${sucesso}" class="alert-success">
+        Chamado aberto com sucesso.
+    </div>
+
+    <form th:action="@{/chamado/novo}" th:object="${chamado}" method="post">
+        <div class="form-group">
+            <label for="nomeSolicitante">Nome do solicitante</label>
+            <input type="text" id="nomeSolicitante" th:field="*{nomeSolicitante}"
+                   placeholder="Como prefere ser chamado" required />
+        </div>
+
+        <div class="form-group">
+            <label for="setor">Setor</label>
+            <input type="text" id="setor" th:field="*{setor}"
+                   placeholder="Ex: Financeiro, RH, Vendas..." required />
+        </div>
+
+        <div class="form-group">
+            <label for="servico">Serviço</label>
+            <input type="text" id="servico" th:field="*{servico}"
+                   placeholder="Infraestrutura, solicitação de compra..." required />
+        </div>
+
+        <div class="form-group">
+            <label for="descricao">Descreva o problema</label>
+            <textarea id="descricao" th:field="*{descricao}"
+                      placeholder="Descrição" required></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">Continuar</button>
+    </form>
+</main>
+
+</body>
+</html>
