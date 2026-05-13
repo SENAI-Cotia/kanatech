@@ -1,329 +1,439 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Kanatech – Gestão de Chamados</title>
+
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f5f5f5;
-            display: flex;
-            min-height: 100vh;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        /* ── Sidebar ── */
-        .sidebar {
-            width: 200px;
-            background: #1a1a2e;
-            display: flex;
-            flex-direction: column;
-            flex-shrink: 0;
-        }
+body {
+    background: #f5f5f5;
+    display: flex;
+    min-height: 100vh;
+    font-family: "Inter", sans-serif;
+}
 
-        .sidebar-logo {
-            padding: 20px 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
 
-        .logo-icon {
-            width: 38px;
-            height: 38px;
-            background: linear-gradient(135deg, #6c63ff, #4a90d9);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            font-weight: bold;
-            color: white;
-        }
+.sidebar {
+    width: 250px;
+    background: #151619;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
 
-        .logo-text { color: white; line-height: 1.2; }
-        .logo-text .brand { font-weight: 700; font-size: 14px; }
-        .logo-text .sub { font-size: 10px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; }
+.sidebar-logo {
+    padding: 20px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
 
-        .sidebar-role {
-            padding: 6px 16px 16px;
-            font-size: 10px;
-            font-weight: 700;
-            color: rgba(255,255,255,0.4);
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
+.logo-icon {
+    width: 38px;
+    height: 38px;
+    background: linear-gradient(135deg, #6c63ff, #4a90d9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+}
 
-        .sidebar-nav { padding: 4px 8px; flex: 1; }
+.logo-text {
+    color: white;
+    line-height: 1.2;
+}
 
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            border-radius: 8px;
-            color: rgba(255,255,255,0.6);
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-bottom: 2px;
-        }
+.logo-text .brand {
+    font-weight: 700;
+    font-size: 14px;
+}
 
-        .nav-item:hover { background: rgba(255,255,255,0.08); color: white; }
-        .nav-item.active { background: #6c63ff; color: white; }
+.logo-text .sub {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
 
-        .sidebar-user {
-            padding: 14px 16px;
-            border-top: 1px solid rgba(255,255,255,0.08);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+.sidebar-role {
+    padding: 6px 16px 16px;
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
 
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            background: #6c63ff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            font-weight: 700;
-            color: white;
-        }
+.sidebar-nav {
+    padding: 4px 8px;
+    flex: 1;
+}
 
-        .user-info { color: white; line-height: 1.3; }
-        .user-info .name { font-size: 12px; font-weight: 600; }
-        .user-info .email { font-size: 10px; color: rgba(255,255,255,0.5); }
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 2px;
+}
 
-        /* ── Main ── */
-        .main {
-            flex: 1;
-            padding: 36px 40px;
-            background: white;
-            overflow-x: auto;
-        }
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+}
 
-        h1 {
-            font-size: 22px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 28px;
-        }
+.nav-item.active {
+    background: #6c63ff;
+    color: white;
+}
 
-        /* ── Table ── */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 700px;
-        }
+.sidebar-user {
+    padding: 14px 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
-        thead th {
-            text-align: left;
-            font-size: 11px;
-            font-weight: 600;
-            color: #6b7280;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 8px 12px;
-            border-bottom: 1px solid #e5e7eb;
-        }
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    background: #6c63ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: white;
+}
 
-        tbody tr {
-            border-bottom: 1px solid #f3f4f6;
-            transition: background 0.15s;
-        }
+.user-info {
+    color: white;
+    line-height: 1.3;
+}
 
-        tbody tr:hover { background: #fafafa; }
+.user-info .name {
+    font-size: 12px;
+    font-weight: 600;
+}
 
-        tbody td {
-            padding: 14px 12px;
-            font-size: 13px;
-            color: #374151;
-            vertical-align: middle;
-        }
+.user-info .email {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.5);
+}
 
-        .td-date { color: #6b7280; font-size: 12px; white-space: nowrap; }
+/* ── Main ── */
+.main {
+    flex: 1;
+    padding: 36px 40px;
+    background: white;
+    overflow-x: auto;
+}
 
-        .td-id { color: #6b7280; font-size: 12px; }
+h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 28px;
+}
 
-        .td-titulo .titulo { font-weight: 600; color: #111827; font-size: 13px; }
-        .td-titulo .servico { font-size: 11px; color: #9ca3af; margin-top: 2px; }
+/* ── Table ── */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;
+}
 
-        .td-cliente {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+thead th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 8px 12px;
+    border-bottom: 1px solid #e5e7eb;
+}
 
-        .avatar {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: #6c63ff;
-            color: white;
-            font-size: 10px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
+tbody tr {
+    border-bottom: 1px solid #f3f4f6;
+    transition: background 0.15s;
+}
 
-        /* Status badges */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            white-space: nowrap;
-        }
+tbody tr:hover {
+    background: #fafafa;
+}
 
-        .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; }
+tbody td {
+    padding: 14px 12px;
+    font-size: 13px;
+    color: #374151;
+    vertical-align: middle;
+}
 
-        .badge-ABERTO { background: #fef2f2; color: #dc2626; }
-        .badge-ABERTO::before { background: #dc2626; }
+.td-date {
+    color: #6b7280;
+    font-size: 12px;
+    white-space: nowrap;
+}
 
-        .badge-EM_ATENDIMENTO { background: #eff6ff; color: #2563eb; }
-        .badge-EM_ATENDIMENTO::before { background: #2563eb; }
+.td-id {
+    color: #6b7280;
+    font-size: 12px;
+}
 
-        .badge-ENCERRADO { background: #f0fdf4; color: #16a34a; }
-        .badge-ENCERRADO::before { background: #16a34a; }
+.td-titulo .titulo {
+    font-weight: 600;
+    color: #111827;
+    font-size: 13px;
+}
 
-        .btn-edit {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #9ca3af;
-            padding: 4px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            transition: color 0.2s;
-        }
+.td-titulo .servico {
+    font-size: 11px;
+    color: #9ca3af;
+    margin-top: 2px;
+}
 
-        .btn-edit:hover { color: #6c63ff; }
+.td-cliente {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #9ca3af;
-        }
+.avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #6c63ff;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
 
-        /* ── Modal ── */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.35);
-            z-index: 100;
-            align-items: center;
-            justify-content: center;
-        }
+/* Status badges */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
 
-        .modal-overlay.open { display: flex; }
+.badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
 
-        .modal {
-            background: white;
-            border-radius: 12px;
-            padding: 28px 32px;
-            width: 400px;
-            max-width: 95vw;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-            position: relative;
-        }
+.badge-ABERTO {
+    background: #fef2f2;
+    color: #dc2626;
+}
 
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
+.badge-ABERTO::before {
+    background: #dc2626;
+}
 
-        .modal-header h2 { font-size: 16px; font-weight: 700; color: #111827; }
+.badge-EM_ATENDIMENTO {
+    background: #eff6ff;
+    color: #2563eb;
+}
 
-        .btn-close {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #9ca3af;
-            font-size: 20px;
-            line-height: 1;
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
+.badge-EM_ATENDIMENTO::before {
+    background: #2563eb;
+}
 
-        .btn-close:hover { color: #374151; }
+.badge-ENCERRADO {
+    background: #f0fdf4;
+    color: #16a34a;
+}
 
-        .modal label {
-            display: block;
-            font-size: 11px;
-            font-weight: 700;
-            color: #6b7280;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-        }
+.badge-ENCERRADO::before {
+    background: #16a34a;
+}
 
-        .modal select {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            font-size: 13px;
-            color: #374151;
-            background: white;
-            outline: none;
-            cursor: pointer;
-            font-family: inherit;
-            margin-bottom: 24px;
-        }
+.btn-edit {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #9ca3af;
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
 
-        .modal select:focus { border-color: #6c63ff; }
+.btn-edit:hover {
+    color: #6c63ff;
+}
 
-        .btn-salvar {
-            width: 100%;
-            background: #111827;
-            color: white;
-            border: none;
-            padding: 13px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #9ca3af;
+}
 
-        .btn-salvar:hover { background: #1f2937; }
+/* ── Modal ── */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+}
 
-        .toast {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: #111827;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 500;
-            z-index: 200;
-            transform: translateY(80px);
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
+.modal-overlay.open {
+    display: flex;
+}
 
-        .toast.show { transform: translateY(0); opacity: 1; }
+.modal {
+    background: white;
+    border-radius: 12px;
+    padding: 28px 32px;
+    width: 400px;
+    max-width: 95vw;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.modal-header h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #9ca3af;
+    font-size: 20px;
+    line-height: 1;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.btn-close:hover {
+    color: #374151;
+}
+
+.modal label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.modal select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #374151;
+    background: white;
+    outline: none;
+    cursor: pointer;
+    font-family: inherit;
+    margin-bottom: 24px;
+}
+
+.modal select:focus {
+    border-color: #6c63ff;
+}
+
+.btn-salvar {
+    width: 100%;
+    background: #111827;
+    color: white;
+    border: none;
+    padding: 13px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-salvar:hover {
+    background: #1f2937;
+}
+
+.toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #111827;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    z-index: 200;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.toast.show {
+    transform: translateY(0);
+    opacity: 1;
+
+}
+
+.title-main {
+    color: #2E3DA3;
+    font-weight: 600;
+    font-size: 1.6rem;
+}
     </style>
+
 </head>
+
 <body>
 
 <aside class="sidebar">
@@ -338,14 +448,15 @@
     <nav class="sidebar-nav">
         <a class="nav-item active" href="/ti/chamados">
             <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
-                <rect x="9" y="3" width="6" height="4" rx="1"/>
+                <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" />
+                <rect x="9" y="3" width="6" height="4" rx="1" />
             </svg>
             Chamados
         </a>
         <a class="nav-item" href="#">
             <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 19.07a10 10 0 010-14.14"/>
+                <circle cx="12" cy="12" r="3" />
+                <path d="M19.07 4.93a10 10 0 010 14.14M4.93 19.07a10 10 0 010-14.14" />
             </svg>
             Serviços
         </a>
@@ -360,56 +471,56 @@
 </aside>
 
 <main class="main">
-    <h1>Chamados abertos</h1>
+    <h1 class="title-main">Chamados abertos</h1>
 
     <table>
         <thead>
-            <tr>
-                <th>Atualizado em</th>
-                <th>Id</th>
-                <th>Título e Serviço</th>
-                <th>Cliente</th>
-                <th style="text-align:right; padding-right:80px;">Status</th>
-                <th></th>
-            </tr>
+        <tr>
+            <th>Atualizado em</th>
+            <th>Id</th>
+            <th>Título e Serviço</th>
+            <th>Cliente</th>
+            <th style="text-align:right; padding-right:80px;">Status</th>
+            <th></th>
+        </tr>
         </thead>
         <tbody>
-            <tr th:if="${#lists.isEmpty(chamados)}">
-                <td colspan="6">
-                    <div class="empty-state">Nenhum chamado encontrado.</div>
-                </td>
-            </tr>
-            <tr th:each="c : ${chamados}">
-                <td class="td-date" th:text="${c.dataAtualizacaoFormatada}"></td>
-                <td class="td-id" th:text="${c.idFormatado}"></td>
-                <td class="td-titulo">
-                    <div class="titulo" th:text="${c.descricao.length() > 45 ? c.descricao.substring(0,45) + '...' : c.descricao}"></div>
-                    <div class="servico" th:text="${c.servico}"></div>
-                </td>
-                <td>
-                    <div class="td-cliente">
-                        <div class="avatar" th:text="${c.iniciais}"></div>
-                        <span th:text="${c.nomeSolicitante}"></span>
-                    </div>
-                </td>
-                <td style="text-align:right; padding-right:20px;">
-                    <span class="badge"
-                          th:classappend="'badge-' + ${c.status.name()}"
-                          th:text="${c.status.descricao}">
-                    </span>
-                </td>
-                <td>
-                    <button class="btn-edit"
-                            th:data-id="${c.id}"
-                            th:data-status="${c.status.name()}"
-                            onclick="abrirModal(this)">
-                        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
-                            <path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                        </svg>
-                    </button>
-                </td>
-            </tr>
+        <tr th:if="${#lists.isEmpty(chamados)}">
+            <td colspan="6">
+                <div class="empty-state">Nenhum chamado feito ainda.</div>
+            </td>
+        </tr>
+        <tr th:each="c : ${chamados}">
+            <td class="td-date" th:text="${c.dataAtualizacaoFormatada}"></td>
+            <td class="td-id" th:text="${c.idFormatado}"></td>
+            <td class="td-titulo">
+                <div class="titulo"
+                     th:text="${c.descricao.length() > 45 ? c.descricao.substring(0,45) + '...' : c.descricao}">
+                </div>
+                <div class="servico" th:text="${c.servico}"></div>
+            </td>
+            <td>
+                <div class="td-cliente">
+                    <div class="avatar" th:text="${c.iniciais}"></div>
+                    <span th:text="${c.nomeSolicitante}"></span>
+                </div>
+            </td>
+            <td style="text-align:right; padding-right:20px;">
+                        <span class="badge" th:classappend="'badge-' + ${c.status.name()}"
+                              th:text="${c.status.descricao}">
+                        </span>
+            </td>
+            <td>
+                <button class="btn-edit" th:data-id="${c.id}" th:data-status="${c.status.name()}"
+                        onclick="abrirModal(this)">
+                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"
+                         viewBox="0 0 24 24">
+                        <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+                        <path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+                    </svg>
+                </button>
+            </td>
+        </tr>
         </tbody>
     </table>
 </main>
@@ -423,9 +534,7 @@
         </div>
         <label>Status</label>
         <select id="selectStatus">
-            <option th:each="s : ${statusList}"
-                    th:value="${s.name()}"
-                    th:text="${s.descricao}">
+            <option th:each="s : ${statusList}" th:value="${s.name()}" th:text="${s.descricao}">
             </option>
         </select>
         <button class="btn-salvar" onclick="salvarStatus()">Salvar</button>
@@ -486,4 +595,5 @@
     }
 </script>
 </body>
+
 </html>
