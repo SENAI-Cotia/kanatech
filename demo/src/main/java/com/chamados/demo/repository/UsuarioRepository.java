@@ -1,7 +1,10 @@
 package com.chamados.demo.repository;
 
-import com.chamados.demo.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import com.chamados.demo.model.Usuario;
+
+import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+    Optional<Usuario> findByUsername(String username);
 }

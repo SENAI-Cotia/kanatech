@@ -1,5 +1,6 @@
 package com.chamados.demo.model;
 
+
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -47,7 +48,6 @@ public class Chamado {
     protected void onUpdate() {
         dataAtualizacao = LocalDateTime.now();
     }
-
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

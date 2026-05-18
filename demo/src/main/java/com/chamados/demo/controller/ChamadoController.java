@@ -9,15 +9,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 public class ChamadoController {
 
     @Autowired
     private ChamadoService chamadoService;
-
 
     @GetMapping("/")
     public String formulario(Model model) {
@@ -33,8 +34,6 @@ public class ChamadoController {
         return "formulario";
     }
 
-
-
     @GetMapping("/ti/chamados")
     public String listarChamados(Model model) {
         List<Chamado> chamados = chamadoService.listarTodos();
@@ -42,7 +41,6 @@ public class ChamadoController {
         model.addAttribute("statusList", StatusChamado.values());
         return "chamados";
     }
-
 
     @PostMapping("/ti/chamado/{id}/status")
     @ResponseBody
@@ -58,17 +56,17 @@ public class ChamadoController {
         }
     }
 
-
-
     @GetMapping("/ti/chamado/{id}")
     @ResponseBody
-    public ResponseEntity<?> buscarChamado(@PathVariable Long id) {
+    public ResponseEntity<Object> buscarChamado(@PathVariable Long id) {
         return chamadoService.buscarPorId(id)
-                .map(c -> ResponseEntity.ok(Map.of(
-                        "id", c.getId(),
-                        "status", c.getStatus().name(),
-                        "statusDescricao", c.getStatus().getDescricao()
-                )))
+                .map(c -> {
+                    Map<String, Object> body = new HashMap<>();
+                    body.put("id", c.getId());
+                    body.put("status", c.getStatus().name());
+                    body.put("statusDescricao", c.getStatus().name());
+                    return ResponseEntity.ok((Object) body);
+                })
                 .orElse(ResponseEntity.notFound().build());
     }
 }
