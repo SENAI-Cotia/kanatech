@@ -439,6 +439,9 @@ tbody td {
         width:100%;
         color: #fff;
         background-color: transparent;
+        border:none;
+        margin-top:10px;
+        cursor:pointer;
         }
     </style>
 
@@ -464,18 +467,13 @@ tbody td {
             </svg>
             Chamados
         </a>
-        <a class="nav-item" href="#">
-            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 19.07a10 10 0 010-14.14"/>
-            </svg>
-            Serviços
-        </a>
+
     </nav>
     <div class="sidebar-user">
         <form th:action="@{/logout}" method="post">
 
             <button type="submit" class="getout-button">
-                Sair
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg>
             </button>
         </form>
         <div class="name"

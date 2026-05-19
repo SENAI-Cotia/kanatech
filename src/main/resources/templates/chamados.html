@@ -64,7 +64,7 @@ body {
 }
 
 .logo-text .sub {
-    font-size: 10px;
+    font-size: 14px;
     color: rgba(255, 255, 255, 0.5);
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -72,7 +72,7 @@ body {
 
 .sidebar-role {
     padding: 6px 16px 16px;
-    font-size: 10px;
+    font-size: 14px;
     font-weight: 700;
     color: rgba(255, 255, 255, 0.4);
     letter-spacing: 1.5px;
@@ -92,7 +92,7 @@ body {
     border-radius: 8px;
     color: rgba(255, 255, 255, 0.6);
     text-decoration: none;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
@@ -125,7 +125,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 700;
     color: white;
 }
@@ -136,12 +136,12 @@ body {
 }
 
 .user-info .name {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
 }
 
 .user-info .email {
-    font-size: 10px;
+    font-size: 14px;
     color: rgba(255, 255, 255, 0.5);
 }
 
@@ -169,7 +169,7 @@ table {
 
 thead th {
     text-align: left;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 600;
     color: #6b7280;
     text-transform: uppercase;
@@ -189,30 +189,30 @@ tbody tr:hover {
 
 tbody td {
     padding: 14px 12px;
-    font-size: 13px;
+    font-size: 14px;
     color: #374151;
     vertical-align: middle;
 }
 
 .td-date {
     color: #6b7280;
-    font-size: 12px;
+    font-size: 14px;
     white-space: nowrap;
 }
 
 .td-id {
     color: #6b7280;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .td-titulo .titulo {
     font-weight: 600;
     color: #111827;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .td-titulo .servico {
-    font-size: 11px;
+    font-size: 14px;
     color: #9ca3af;
     margin-top: 2px;
 }
@@ -229,7 +229,7 @@ tbody td {
     border-radius: 50%;
     background: #6c63ff;
     color: white;
-    font-size: 10px;
+    font-size: 14px;
     font-weight: 700;
     display: flex;
     align-items: center;
@@ -244,7 +244,7 @@ tbody td {
     gap: 5px;
     padding: 4px 12px;
     border-radius: 20px;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 600;
     white-space: nowrap;
 }
@@ -439,6 +439,9 @@ tbody td {
         width:100%;
         color: #fff;
         background-color: transparent;
+        border:none;
+        margin-top:10px;
+        cursor:pointer;
         }
     </style>
 
@@ -464,18 +467,13 @@ tbody td {
             </svg>
             Chamados
         </a>
-        <a class="nav-item" href="#">
-            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 19.07a10 10 0 010-14.14"/>
-            </svg>
-            Serviços
-        </a>
+
     </nav>
     <div class="sidebar-user">
         <form th:action="@{/logout}" method="post">
 
             <button type="submit" class="getout-button">
-                Sair
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg>
             </button>
         </form>
         <div class="name"
