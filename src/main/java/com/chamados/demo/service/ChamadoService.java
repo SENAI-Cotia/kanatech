@@ -1,10 +1,10 @@
 package com.chamados.demo.service;
 
+import com.chamados.demo.model.Chamado;
+import com.chamados.demo.model.StatusChamado;
 import com.chamados.demo.repository.ChamadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.chamados.demo.model.Chamado;
-import com.chamados.demo.model.StatusChamado;
 
 import java.util.List;
 import java.util.Optional;
