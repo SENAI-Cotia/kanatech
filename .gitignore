@@ -1,11 +1,18 @@
-# Default ignored files
-/shelf/
-/workspace.xml
-# Editor-based HTTP Client requests
-/httpRequests/
-
+# Build
 target/
+
+# IDE
 .idea/
 *.iml
-.env
+/shelf/
+/workspace.xml
+/httpRequests/
+
+# OS
 .DS_Store
+
+# Env
+.env
+
+# Credenciais locais
+src/main/resources/application-local.properties
