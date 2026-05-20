@@ -1,12 +1,9 @@
 package com.chamados.demo.model;
 
 public enum StatusChamado {
-
     ABERTO("Aberto"),
-    EM_ANDAMENTO("Em Andamento"),
-    AGUARDANDO("Aguardando"),
-    RESOLVIDO("Resolvido"),
-    FECHADO("Fechado");
+    EM_ATENDIMENTO("Em Atendimento"),
+    ENCERRADO("Encerrado");
 
     private final String descricao;
 

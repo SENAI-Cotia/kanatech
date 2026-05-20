@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Login – Kanatech</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f4f4f4;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            width: 320px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 420px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #6c63ff, #4a90d9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .logo-text .brand { font-weight: 700; font-size: 16px; color: #111; }
+        .logo-text .sub   { font-size: 14px; color: #999; text-transform: uppercase; letter-spacing: 1px; }
+
+        h2 { font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 20px; }
+
+        label { display: block; font-size: 14px; font-weight: 600; color: #374151; margin-bottom: 5px; }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 17px;
+            margin-bottom: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus { border-color: #6c63ff; }
+
+        button {
+            width: 100%;
+            padding: 11px;
+            border: none;
+            border-radius: 8px;
+            background: #6c63ff;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 4px;
+        }
+
+        button:hover { background: #5a52d5; }
+
+        .alert {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+
+        .success {
+            background: #f0fdf4;
+            border: 1px solid #a7f3d0;
+            color: #16a34a;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 16px;
+            display:none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+
+    <div class="logo">
+        <div class="logo-icon">K</div>
+        <div class="logo-text">
+            <div class="brand">Kanatech</div>
+            <div class="sub">Chamados</div>
+        </div>
+    </div>
+
+    <h2>Entrar</h2>
+
+    <!-- Mensagem de erro de login -->
+    <div th:if="${param.error}" class="alert">
+        Usuário ou senha incorretos.
+    </div>
+
+    <!-- Mensagem de logout -->
+    <div th:if="${param.logout}" class="success">
+        Sessão encerrada com sucesso.
+    </div>
+
+    <!-- SEM o campo _csrf — CSRF está desabilitado no SecurityConfig -->
+    <form method="post" th:action="@{/login}">
+
+        <label for="username">Usuário</label>
+        <input type="text"
+               id="username"
+               name="username"
+               placeholder="Digite seu usuário"
+               required autofocus>
+
+        <label for="password">Senha</label>
+        <input type="password"
+               id="password"
+               name="password"
+               placeholder="Digite sua senha"
+               required>
+
+        <button type="submit">Entrar</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>
