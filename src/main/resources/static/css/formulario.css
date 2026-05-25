@@ -236,3 +236,8 @@ textarea {
     gap: 8px;
 
 }
+
+.kanatech-logo {
+         width: 200px;
+         cursor: pointer;
+     }

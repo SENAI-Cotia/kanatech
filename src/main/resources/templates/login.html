@@ -20,17 +20,17 @@
 
     <h2>Entrar</h2>
 
-    <!-- Mensagem de erro de login -->
+
     <div th:if="${param.error}" class="alert">
         Usuário ou senha incorretos.
     </div>
 
-    <!-- Mensagem de logout -->
+
     <div th:if="${param.logout}" class="success">
         Sessão encerrada com sucesso.
     </div>
 
-    <!-- SEM o campo _csrf — CSRF está desabilitado no SecurityConfig -->
+
     <form method="post" th:action="@{/login}">
 
         <label for="username">Usuário</label>

@@ -423,15 +423,20 @@ tbody td {
     font-size: 1.6rem;
 }
 
-        .name, .email {
+name, .email {
         display:none
         }
 
-        .getout-button {
+.getout-button {
         width:100%;
         color: #fff;
         background-color: transparent;
         border:none;
         margin-top:10px;
         cursor:pointer;
-        }
+}
+
+.kanatech-logo {
+         width: 200px;
+         cursor: pointer;
+     }
