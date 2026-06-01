@@ -237,12 +237,10 @@ textarea {
 
 }
 
-//estilo da logo
 .kanatech-logo {
          width: 200px;
          cursor: pointer;
      }
-// ocultando o botão para não dar para vizualizar sem login
   .hidden-button  {
      display:none;
 
