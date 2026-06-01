@@ -24,6 +24,7 @@ public class ChamadoController {
         model.addAttribute("chamado", new Chamado());
         return "formulario";
     }
+
     @PostMapping("/chamado/novo")
     public String novoChamado(@ModelAttribute Chamado chamado, Model model) {
         chamadoService.salvar(chamado);
@@ -31,6 +32,7 @@ public class ChamadoController {
         model.addAttribute("chamado", new Chamado());
         return "formulario";
     }
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/ti/chamados")
     public String listarChamados(Model model) {
@@ -39,6 +41,7 @@ public class ChamadoController {
         model.addAttribute("statusList", StatusChamado.values());
         return "chamados";
     }
+
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/ti/chamado/{id}/status")
     @ResponseBody
@@ -49,21 +52,16 @@ public class ChamadoController {
         try {
             StatusChamado novoStatus = StatusChamado.valueOf(body.get("status"));
             chamadoService.atualizarStatus(id, novoStatus);
-
-            return ResponseEntity.ok(Map.of(
-                    "sucesso", true
-            ));
+            return ResponseEntity.ok(Map.of("sucesso", true));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of(
-                    "erro", e.getMessage()
-            ));
+            return ResponseEntity.badRequest().body(Map.of("erro", e.getMessage()));
         }
     }
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/ti/chamado/{id}")
     @ResponseBody
     public ResponseEntity<?> buscarChamado(@PathVariable Long id) {
-
         return chamadoService.buscarPorId(id)
                 .map(c -> ResponseEntity.ok(Map.of(
                         "id", c.getId(),
@@ -71,5 +69,17 @@ public class ChamadoController {
                         "statusDescricao", c.getStatus().getDescricao()
                 )))
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/ti/chamado/{id}")
+    @ResponseBody
+    public ResponseEntity<?> deletarChamado(@PathVariable Long id) {
+        try {
+            chamadoService.deletar(id);
+            return ResponseEntity.ok(Map.of("sucesso", true));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("erro", e.getMessage()));
+        }
     }
 }

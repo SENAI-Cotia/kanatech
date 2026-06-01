@@ -34,4 +34,8 @@ public class ChamadoService {
             chamadoRepository.save(chamado);
         });
     }
+
+    public void deletar(Long id) {
+        chamadoRepository.deleteById(id);
+    }
 }
