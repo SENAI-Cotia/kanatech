@@ -435,3 +435,8 @@ tbody td {
         margin-top:10px;
         cursor:pointer;
         }
+
+.kanatech-logo {
+         width: 200px;
+         cursor: pointer;
+     }

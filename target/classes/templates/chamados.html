@@ -5,7 +5,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{static/estilos/chamados.css}">
     <title>Kanatech – Gestão de Chamados</title>
     <link rel="stylesheet" th:href="@{/css/chamados.css}">
 
@@ -14,11 +13,7 @@
 
 <aside class="sidebar">
     <div class="sidebar-logo">
-        <div class="logo-icon">K</div>
-        <div class="logo-text">
-            <div class="brand">Kanatech</div>
-            <div class="sub">Chamados</div>
-        </div>
+        <img class="kanatech-logo" th:src="@{/images/KanatechLogo.png}" alt="Logo da Kanatech">
     </div>
     <div class="sidebar-role"
          sec:authorize="hasRole('ADMIN')">
