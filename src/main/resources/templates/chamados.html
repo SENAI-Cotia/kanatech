@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanatech – Gestão de Chamados</title>
+    <link rel="stylesheet" th:href="@{/css/chamados.css}">
+
+</head>
+<body>
+
+<aside class="sidebar">
+    <div class="sidebar-logo">
+        <img class="kanatech-logo" th:src="@{/images/KanatechLogo.png}" alt="Logo da Kanatech">
+    </div>
+    <div class="sidebar-role"
+         sec:authorize="hasRole('ADMIN')">
+        Admin
+    </div>
+    <a class="nav-item active" href="/ti/chamados">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+            <rect x="9" y="3" width="6" height="4" rx="1"/>
+        </svg>
+        Chamados
+    </a>
+
+    </nav>
+    <div class="sidebar-user">
+        <form th:action="@{/logout}" method="post">
+
+            <button type="submit" class="getout-button">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg>
+            </button>
+        </form>
+        <div class="name"
+             th:text="${#authentication.name}">
+            Usuário
+        </div>
+        <div class="name"> TI</div>
+        <div class="email">ti@kanatech.com</div>
+    </div>
+    </div>
+</aside>
+
+<main class="main">
+    <h1>Chamados abertos</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Atualizado em</th>
+            <th>Id</th>
+            <th>Título e Serviço</th>
+            <th>Cliente</th>
+            <th style="text-align:right; padding-right:80px;">Status</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(chamados)}">
+            <td colspan="6">
+                <div class="empty-state">Nenhum chamado encontrado.</div>
+            </td>
+        </tr>
+        <tr th:each="c : ${chamados}">
+            <td class="td-date" th:text="${c.dataAtualizacaoFormatada}"></td>
+            <td class="td-id" th:text="${c.idFormatado}"></td>
+            <td class="td-titulo">
+                <div class="titulo" th:text="${c.descricao.length() > 45 ? c.descricao.substring(0,45) + '...' : c.descricao}"></div>
+                <div class="servico" th:text="${c.servico}"></div>
+            </td>
+            <td>
+                <div class="td-cliente">
+                    <div class="avatar" th:text="${c.iniciais}"></div>
+                    <span th:text="${c.nomeSolicitante}"></span>
+                </div>
+            </td>
+            <td style="text-align:right; padding-right:20px;">
+                    <span class="badge"
+                          th:classappend="'badge-' + ${c.status.name()}"
+                          th:text="${c.status.descricao}">
+                    </span>
+            </td>
+            <td>
+                <button class="btn-edit"
+                        th:data-id="${c.id}"
+                        th:data-status="${c.status.name()}"
+                        onclick="abrirModal(this)">
+                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                        <path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                    </svg>
+                </button>
+                <button class="btn-delete"
+                        th:data-id="${c.id}"
+                        th:data-titulo="${c.descricao}"
+                        onclick="abrirModalDelete(this)">
+                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <polyline points="3 6 5 6 21 6"/>
+                        <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
+                        <path d="M10 11v6M14 11v6"/>
+                        <path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/>
+                    </svg>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<!-- Modal Mudar Status -->
+<div class="modal-overlay" id="modalOverlay" onclick="fecharModalFora(event)">
+    <div class="modal">
+        <div class="modal-header">
+            <h2>Mudar status da ordem</h2>
+            <button class="btn-close" onclick="fecharModal()">×</button>
+        </div>
+        <label>Status</label>
+        <select id="selectStatus">
+            <option th:each="s : ${statusList}"
+                    th:value="${s.name()}"
+                    th:text="${s.descricao}">
+            </option>
+        </select>
+        <button class="btn-salvar" onclick="salvarStatus()">Salvar</button>
+    </div>
+</div>
+
+<!-- Modal Confirmar Exclusão -->
+<div class="modal-overlay" id="modalDeleteOverlay" onclick="fecharModalDeleteFora(event)">
+    <div class="modal">
+        <div class="modal-header">
+            <h2>Excluir chamado</h2>
+            <button class="btn-close" onclick="fecharModalDelete()">×</button>
+        </div>
+        <p id="deleteConfirmMsg" style="margin: 12px 0 20px; color: var(--text-secondary, #888); font-size: 14px;"></p>
+        <div style="display:flex; gap:10px;">
+            <button class="btn-salvar" style="background:#dc3545;" onclick="confirmarDelete()">Excluir</button>
+            <button class="btn-salvar" style="background:#555;" onclick="fecharModalDelete()">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+    let chamadoIdAtivo = null;
+
+    function abrirModal(btn) {
+        chamadoIdAtivo = btn.getAttribute('data-id');
+        const statusAtual = btn.getAttribute('data-status');
+        document.getElementById('selectStatus').value = statusAtual;
+        document.getElementById('modalOverlay').classList.add('open');
+    }
+
+    function fecharModal() {
+        document.getElementById('modalOverlay').classList.remove('open');
+        chamadoIdAtivo = null;
+    }
+
+    function fecharModalFora(event) {
+        if (event.target === document.getElementById('modalOverlay')) {
+            fecharModal();
+        }
+    }
+
+    async function salvarStatus() {
+        if (!chamadoIdAtivo) return;
+        const novoStatus = document.getElementById('selectStatus').value;
+
+        try {
+            const resp = await fetch(`/ti/chamado/${chamadoIdAtivo}/status`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: novoStatus })
+            });
+
+            if (resp.ok) {
+                mostrarToast('Status atualizado com sucesso!');
+                fecharModal();
+                setTimeout(() => location.reload(), 800);
+            } else {
+                mostrarToast('Erro ao atualizar status.');
+            }
+        } catch (e) {
+            mostrarToast('Erro de conexão.');
+        }
+    }
+
+    function mostrarToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    let chamadoDeleteId = null;
+
+    function abrirModalDelete(btn) {
+        chamadoDeleteId = btn.getAttribute('data-id');
+        const titulo = btn.getAttribute('data-titulo');
+        const msg = titulo.length > 60 ? titulo.substring(0, 60) + '...' : titulo;
+        document.getElementById('deleteConfirmMsg').textContent =
+            `Tem certeza que deseja excluir o chamado "${msg}"? Esta ação não pode ser desfeita.`;
+        document.getElementById('modalDeleteOverlay').classList.add('open');
+    }
+
+    function fecharModalDelete() {
+        document.getElementById('modalDeleteOverlay').classList.remove('open');
+        chamadoDeleteId = null;
+    }
+
+    function fecharModalDeleteFora(event) {
+        if (event.target === document.getElementById('modalDeleteOverlay')) {
+            fecharModalDelete();
+        }
+    }
+
+    async function confirmarDelete() {
+        if (!chamadoDeleteId) return;
+        try {
+            const resp = await fetch(`/ti/chamado/${chamadoDeleteId}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (resp.ok) {
+                mostrarToast('Chamado excluído com sucesso!');
+                fecharModalDelete();
+                setTimeout(() => location.reload(), 800);
+            } else {
+                mostrarToast('Erro ao excluir chamado.');
+            }
+        } catch (e) {
+            mostrarToast('Erro de conexão.');
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Login – Kanatech</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+
+</head>
+<body>
+
+<div class="card">
+
+    <div class="logo">
+        <div class="logo-icon">K</div>
+        <div class="logo-text">
+            <div class="brand">Kanatech</div>
+            <div class="sub">Chamados</div>
+        </div>
+    </div>
+
+    <h2>Entrar</h2>
+
+    <!-- Mensagem de erro de login -->
+    <div th:if="${param.error}" class="alert">
+        Usuário ou senha incorretos.
+    </div>
+
+    <!-- Mensagem de logout -->
+    <div th:if="${param.logout}" class="success">
+        Sessão encerrada com sucesso.
+    </div>
+
+    <!-- SEM o campo _csrf — CSRF está desabilitado no SecurityConfig -->
+    <form method="post" th:action="@{/login}">
+
+        <label for="username">Usuário</label>
+        <input type="text"
+               id="username"
+               name="username"
+               placeholder="Digite seu usuário"
+               required autofocus>
+
+        <label for="password">Senha</label>
+        <input type="password"
+               id="password"
+               name="password"
+               placeholder="Digite sua senha"
+               required>
+
+        <button type="submit">Entrar</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

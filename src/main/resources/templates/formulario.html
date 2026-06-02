@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanatech Chamados</title>
+
+    <link rel="stylesheet" th:href="@{/css/formulario.css}">
+
+
+</head>
+
+<body>
+
+<aside class="sidebar">
+    <div class="sidebar-logo">
+        <img class="kanatech-logo" th:src="@{/images/KanatechLogo.png}" alt="Logo da Kanatech">
+    </div>
+
+    <nav class="sidebar-nav">
+
+        <a class="nav-item active" href="/">
+            Abrir um chamado
+        </a>
+
+        <a class="nav-item"
+           sec:authorize="hasRole('ADMIN')"
+           href="/ti/chamados">
+            Painel TI
+        </a>
+
+    </nav>
+
+    <div class="sidebar-user">
+
+        <div class="user-avatar"
+             th:text="${#authentication.name.substring(0,1).toUpperCase()}">
+            U
+        </div>
+
+        <div class="user-info">
+
+            <div class="name"
+                 th:text="${#authentication.name}">
+                Usuário
+            </div>
+
+            <div class="email">
+                Usuário autenticado
+            </div>
+
+        </div>
+
+    </div>
+
+    <form th:action="@{/logout}" method="post">
+
+        <button type="submit" class="hidden-button">
+            Sair
+        </button>
+
+    </form>
+
+</aside>
+
+<main class="main">
+
+    <h1>Abrir um chamado</h1>
+
+    <hr class="divider">
+
+    <div th:if="${sucesso}" class="alert-success">
+        Chamado aberto com sucesso.
+    </div>
+
+    <form th:action="@{/chamado/novo}"
+          th:object="${chamado}"
+          method="post">
+
+        <div class="form-group">
+
+            <label for="nomeSolicitante">
+                Nome do solicitante
+            </label>
+
+            <input type="text"
+                   id="nomeSolicitante"
+                   th:field="*{nomeSolicitante}"
+                   required />
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="setor">
+                Setor
+            </label>
+
+            <input type="text"
+                   id="setor"
+                   th:field="*{setor}"
+                   required />
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="servico">
+                Serviço
+            </label>
+
+            <input type="text"
+                   id="servico"
+                   th:field="*{servico}"
+                   required />
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="descricao">
+                Descreva o problema
+            </label>
+
+            <textarea id="descricao"
+                      th:field="*{descricao}"
+                      required></textarea>
+
+        </div>
+
+        <button type="submit"
+                class="btn-submit">
+
+            Continuar
+
+        </button>
+
+    </form>
+
+</main>
+
+</body>
+</html>
